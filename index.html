@@ -29,7 +29,14 @@
 
             .sound-btn {
                 margin: 10px;
-                width: 20%
+                width: 20vw
+            }
+
+            @media only screen and (max-width: 600px) {
+                .sound-btn {
+                    margin: 10px;
+                    width: 90vw
+                }
             }
 
             .sound-tab {
@@ -44,13 +51,13 @@
     <body>
         <nav>
             <div class="nav-wrapper bungie-grey">
-                <a href="#" class="brand-logo ">Destiny 2 Soundboard (Beta)</a>
+                <a href="#" class="brand-logo ">Destiny 2 Soundboard</a>
             </div>
         </nav>
         <div class="row">
             <div class="col s12">
               <ul class="tabs bungie-grey">
-                <li class="tab col s6 waves-effect waves-brown"><a href="#shaxx" class="active bungie-yellow waves-yellow">Shaxx</a></li>
+                <li class="tab col s6"><a href="#shaxx" class="active bungie-yellow waves-yellow">Shaxx</a></li>
                 <li class="tab col s6"><a class="active" href="#saladin">Saladin</a></li>
               </ul>
             </div>
@@ -79,17 +86,46 @@
 
         async function shaxx() {
             const lines = JSON.parse(atob(JSON.parse(await get("https://api.github.com/repos/evilarceus/Destiny2-Soundboard/contents/shaxx.json")).content)).lines; // Greatest one-liner known to mankind
-            let keys = Object.keys(lines);
-            let vals = Object.values(lines);
+            
+            let keys = Object.keys(lines.ones_that_matter);
+            let vals = Object.values(lines.ones_that_matter);
             const elmShaxx = document.getElementById("shaxx");
+            let _h3 = document.createElement("h3");
+            _h3.classList.add("white-text")
+            let _th3 = document.createTextNode("Ones That Matter")
+            _h3.appendChild(_th3);
+            elmShaxx.appendChild(_h3);
+
             for (let i = 0; i < keys.length; i++) {
+                console.log(vals[i])
                 let elm = document.createElement("A");
-                elm.classList.add("waves-effect", "waves-light", "btn-large", "sound-btn", "red", "darken-3");
+                elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
                 let t = document.createTextNode(vals[i]);
                 elm.appendChild(t);
                 
                 elm.onclick = function() {
                     const audio = new Audio(`https://raw.githubusercontent.com/evilarceus/Destiny2-Soundboard/master/ogg/shaxx/${keys[i]}.ogg`);
+                    audio.play(); 
+                }
+                elmShaxx.appendChild(elm);
+            }
+
+            _h3 = document.createElement("h3");
+            _h3.classList.add("white-text")
+            _th3 = document.createTextNode("Others")
+            _h3.appendChild(_th3);
+            elmShaxx.appendChild(_h3);
+
+            allKeys = Object.keys(lines.all);
+            allVals = Object.values(lines.all);
+            for (let i = 0; i < allKeys.length; i++) {
+                let elm = document.createElement("A");
+                elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
+                let t = document.createTextNode(allVals[i]);
+                elm.appendChild(t);
+                
+                elm.onclick = function() {
+                    const audio = new Audio(`https://raw.githubusercontent.com/evilarceus/Destiny2-Soundboard/master/ogg/shaxx/${allKeys[i]}.ogg`);
                     audio.play(); 
                 }
                 elmShaxx.appendChild(elm);
