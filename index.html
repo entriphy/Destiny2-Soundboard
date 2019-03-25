@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+         <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.tabs').tabs();
+            });
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style>
+            .bungie-grey, body {
+                background-color: #12171C !important
+            }
+            .bungie-yellow {
+                color: #FFCE1F !important
+            }
+            .content {
+                color: #FFCE1F !important
+            }
+
+            .brand-logo {
+                margin-left: 10px
+            }
+
+            .sound-btn {
+                margin: 10px;
+                width: 20%
+            }
+
+            .sound-tab {
+                margin: 0 auto;
+            }
+
+            .white-text {
+                color: #FAFAFA
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <div class="nav-wrapper bungie-grey">
+                <a href="#" class="brand-logo ">Destiny 2 Soundboard (Beta)</a>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col s12">
+              <ul class="tabs bungie-grey">
+                <li class="tab col s6 waves-effect waves-brown"><a href="#shaxx" class="active bungie-yellow waves-yellow">Shaxx</a></li>
+                <li class="tab col s6"><a class="active" href="#saladin">Saladin</a></li>
+              </ul>
+            </div>
+
+            <div id="shaxx" class="col s12 sound_tab">
+                <h4 class="bungie-yellow">Lord Shaxx (// TODO: sort these into categories)</h4>
+                <h3 id="shaxx-loading" class="white-text">Loading...</h3>
+            </div>
+            <div id="saladin" class="col s12 bungie-yellow"><h3>Coming soon! (just need to extract files :P)</h3></div>
+          </div>
+    </body>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        function get(url) {
+            return new Promise((resolve, reject) => {
+                let xhr = new XMLHttpRequest();
+                function reqListener() {
+                    return resolve(this.responseText);
+                }
+                xhr.addEventListener("load", reqListener);
+                xhr.open("GET", url, true);
+                xhr.send();
+            })
+        }
+
+        async function shaxx() {
+            const lines = JSON.parse(atob(JSON.parse(await get("https://api.github.com/repos/evilarceus/Destiny2-Soundboard/contents/shaxx.json")).content)).lines; // Greatest one-liner known to mankind
+            let keys = Object.keys(lines);
+            let vals = Object.values(lines);
+            const elmShaxx = document.getElementById("shaxx");
+            for (let i = 0; i < keys.length; i++) {
+                let elm = document.createElement("A");
+                elm.classList.add("waves-effect", "waves-light", "btn-large", "sound-btn", "red", "darken-3");
+                let t = document.createTextNode(vals[i]);
+                elm.appendChild(t);
+                
+                elm.onclick = function() {
+                    const audio = new Audio(`https://raw.githubusercontent.com/evilarceus/Destiny2-Soundboard/master/ogg/shaxx/${keys[i]}.ogg`);
+                    audio.play(); 
+                }
+                elmShaxx.appendChild(elm);
+            }
+            elmShaxx.removeChild(document.getElementById("shaxx-loading"));
+        }
+        shaxx();
+    </script>
+</html>
