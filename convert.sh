@@ -1,0 +1,1 @@
+for i in ogg/shaxx/*.ogg; do ffmpeg -i "$i" "${i%.*}.mp3"; done
