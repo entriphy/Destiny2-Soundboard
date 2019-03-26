@@ -72,6 +72,8 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
+        const dev = false;
+
         function get(url) {
             return new Promise((resolve, reject) => {
                 let xhr = new XMLHttpRequest();
@@ -85,51 +87,36 @@
         }
 
         async function shaxx() {
-            const lines = JSON.parse(atob(JSON.parse(await get("https://api.github.com/repos/evilarceus/Destiny2-Soundboard/contents/shaxx.json")).content)).lines; // Greatest one-liner known to mankind
-            
-            let keys = Object.keys(lines.ones_that_matter);
-            let vals = Object.values(lines.ones_that_matter);
+            const lines = !dev
+            ? JSON.parse(atob(JSON.parse(await get("https://api.github.com/repos/evilarceus/Destiny2-Soundboard/contents/shaxx.json")).content)).lines
+            : JSON.parse(await get("http://localhost:3000/shaxx.json")).lines;
+            const lines_keys = Object.keys(lines);
             const elmShaxx = document.getElementById("shaxx");
-            let _h3 = document.createElement("h3");
-            _h3.classList.add("white-text")
-            let _th3 = document.createTextNode("Ones That Matter")
-            _h3.appendChild(_th3);
-            elmShaxx.appendChild(_h3);
 
-            for (let i = 0; i < keys.length; i++) {
-                console.log(vals[i])
-                let elm = document.createElement("A");
-                elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
-                let t = document.createTextNode(vals[i]);
-                elm.appendChild(t);
-                
-                elm.onclick = function() {
-                    const audio = new Audio(`https://raw.githubusercontent.com/evilarceus/Destiny2-Soundboard/master/ogg/shaxx/${keys[i]}.mp3`);
-                    audio.play(); 
+            for (let i = 0; i < lines_keys.length; i++) {
+                const title = lines_keys[i]; // Title of h3 element
+                const keys = Object.keys(lines[title]);
+                const vals = Object.values(lines[title]);
+                let h3 = document.createElement("h3"); // Create h3 element
+                h3.classList.add("white-text"); // Make text white
+                let th3 = document.createTextNode(title); // Add title to h3
+                h3.appendChild(th3);
+                elmShaxx.appendChild(h3);
+
+                for (let x = 0; x < keys.length; x++) {
+                    let elm = document.createElement("a");
+                    elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
+                    let t = document.createTextNode(vals[x]);
+                    elm.appendChild(t);
+                    
+                    elm.onclick = function() {
+                        const audio = new Audio(!dev ? `https://raw.githubusercontent.com/evilarceus/Destiny2-Soundboard/master/ogg/shaxx/${keys[x]}.mp3` : `http://localhost:3000/ogg/shaxx/${keys[x]}.ogg`);
+                        audio.play(); 
+                    }
+                    elmShaxx.appendChild(elm);
                 }
-                elmShaxx.appendChild(elm);
             }
 
-            _h3 = document.createElement("h3");
-            _h3.classList.add("white-text")
-            _th3 = document.createTextNode("Others")
-            _h3.appendChild(_th3);
-            elmShaxx.appendChild(_h3);
-
-            allKeys = Object.keys(lines.all);
-            allVals = Object.values(lines.all);
-            for (let i = 0; i < allKeys.length; i++) {
-                let elm = document.createElement("A");
-                elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
-                let t = document.createTextNode(allVals[i]);
-                elm.appendChild(t);
-                
-                elm.onclick = function() {
-                    const audio = new Audio(`https://raw.githubusercontent.com/evilarceus/Destiny2-Soundboard/master/ogg/shaxx/${allKeys[i]}.mp3`);
-                    audio.play(); 
-                }
-                elmShaxx.appendChild(elm);
-            }
             elmShaxx.removeChild(document.getElementById("shaxx-loading"));
         }
         shaxx();

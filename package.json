@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/evilarceus/Destiny2-Soundboard#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "iohook": "^0.4.0",
+    "robotjs": "^0.5.1"
   }
 }
