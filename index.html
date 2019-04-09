@@ -9,6 +9,37 @@
         <script>
             $(document).ready(function(){
                 $('.tabs').tabs();
+
+                function inputChanged() {
+                    return new Promise((resolve, reject) => {
+                        let input = $("#shaxx_search").val();
+                        setTimeout(() => {
+                            if ($("#shaxx_search").val() !== input) reject();
+                            else resolve();
+                        }, 250);
+                    })
+                }
+
+                $("#shaxx_search").on("input", async () => {
+                    let input = $("#shaxx_search").val();
+                    try {
+                        await inputChanged();
+                        if (input === "") {
+                            console.log("ok")
+                            for (let i = 0; i < $(".sound-btn").length; i++) {
+                                let btn = $(".sound-btn")[i];
+                                btn.style.display = "";
+                            }
+                            return;
+                        }
+                        for (let i = 0; i < $(".sound-btn").length; i++) {
+                            let btn = $(".sound-btn")[i];
+                            if (!btn.innerText.toLowerCase().includes(input.toLowerCase())) btn.style.display = "none";
+                        }
+                    } catch (e) {
+                        return;
+                    }
+                })
             });
         </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -64,6 +95,11 @@
 
             <div id="shaxx" class="col s12 sound_tab">
                 <h4 class="bungie-yellow">Lord Shaxx (// TODO: sort these into categories)</h4>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix" style="color: white;">search</i>
+                    <input id="shaxx_search" type="text" style="width: 75%; color: #FAFAFA">
+                </div>
+                
                 <h3 id="shaxx-loading" class="white-text">Loading...</h3>
             </div>
             <div id="saladin" class="col s12 bungie-yellow"><h3>Coming soon! (just need to extract files :P)</h3></div>
