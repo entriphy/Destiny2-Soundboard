@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
          <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -9,7 +8,8 @@
         <script>
             $(document).ready(function(){
                 $('.tabs').tabs();
-
+                $('.modal').modal();
+                
                 function inputChanged() {
                     return new Promise((resolve, reject) => {
                         let input = $("#shaxx_search").val();
@@ -92,10 +92,14 @@
     <body>
         <nav>
             <div class="nav-wrapper bungie-grey">
-                <a href="#" class="brand-logo ">Destiny 2 Soundboard</a>
+                <a href="#" class="brand-logo">Destiny 2 Soundboard</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#modal-disclaimer" class="modal-trigger">Disclaimer</a></li>
+                </ul>
             </div>
         </nav>
         <div class="row">
+
             <div class="col s12">
               <ul class="tabs bungie-grey">
                 <li class="tab col s6"><a href="#shaxx" class="active bungie-yellow waves-yellow">Shaxx</a></li>
@@ -104,16 +108,29 @@
             </div>
 
             <div id="shaxx" class="col s12 sound_tab">
-                <h4 class="bungie-yellow">Lord Shaxx (// TODO: sort these into categories)</h4>
+                <h4 class="bungie-yellow">Lord Shaxx</h4>
                 <div class="input-field col s12">
                     <i class="material-icons prefix" style="color: white;">search</i>
                     <input id="shaxx_search" type="text" style="width: 75%; color: #FAFAFA">
-                </div>
-                
+                </div>                
                 <h3 id="shaxx-loading" class="white-text">Loading...</h3>
             </div>
-            <div id="saladin" class="col s12 bungie-yellow"><h3>Coming soon! (just need to extract files :P)</h3></div>
+
+            <div id="saladin" class="col s12 bungie-yellow">
+                <h3>Coming soon! (just need to extract files :P)</h3>
+            </div>
+            
           </div>
+
+          <div id="modal-disclaimer" class="modal">
+            <div class="modal-content">
+                <h4>Disclaimer</h4>
+                <p>I do not own any rights to the sound files used in this repository. All sound content in this project is owned by Bungie, Inc. and their respective owners.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
     </body>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
