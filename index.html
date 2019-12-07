@@ -12,16 +12,16 @@
                 
                 function inputChanged() {
                     return new Promise((resolve, reject) => {
-                        let input = $("#shaxx_search").val();
+                        let input = $(".js-search").val();
                         setTimeout(() => {
-                            if ($("#shaxx_search").val() !== input) reject();
+                            if ($(".js-search").val() !== input) reject();
                             else resolve();
                         }, 250);
                     })
                 }
 
-                $("#shaxx_search").on("input", async () => {
-                    let input = $("#shaxx_search").val();
+                $(".js-search").on("input", async () => {
+                    let input = $(".js-search").val();
                     try {
                         await inputChanged();
                         if (input === "") {
@@ -115,7 +115,7 @@
                 <h4 class="bungie-yellow">Lord Shaxx</h4>
                 <div class="input-field col s12">
                     <i class="material-icons prefix" style="color: white;">search</i>
-                    <input id="shaxx_search" type="text" style="width: 75%; color: #FAFAFA">
+                    <input id="shaxx_search" class="js-search" type="text" style="width: 75%; color: #FAFAFA">
                 </div>                
                 <h3 id="shaxx-loading" class="white-text">Loading...</h3>
             </div>
@@ -124,7 +124,7 @@
                 <h3>Lord Saladin</h3>
                 <div class="input-field col s12">
                     <i class="material-icons prefix" style="color: white;">search</i>
-                    <input id="saladin_search" type="text" style="width: 75%; color: #FAFAFA">
+                    <input id="saladin_search" class="js-search" type="text" style="width: 75%; color: #FAFAFA">
                 </div>                
                 <h3 id="saladin-loading" class="white-text">Loading...</h3>
             </div>
@@ -133,7 +133,7 @@
                 <h3>Emperor Calus</h3>
                 <div class="input-field col s12">
                     <i class="material-icons prefix" style="color: white;">search</i>
-                    <input id="calus_search" type="text" style="width: 75%; color: #FAFAFA">
+                    <input id="calus_search" class="js-search" type="text" style="width: 75%; color: #FAFAFA">
                 </div>                
                 <h3 id="calus-loading" class="white-text">Loading...</h3>
             </div>
