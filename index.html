@@ -203,6 +203,7 @@
     <script>
         const dev = false;
         const githubApiUrl = 'https://api.github.com/repos/madmikeyb/Destiny2-Soundboard/contents';
+        const destinyDictionaryBlob = 'https://api.github.com/repos/madmikeyb/Destiny2-Soundboard/git/blobs/94d4ca3cef7056a374d938608fe2a5ca0afafe7d'
         const githubRawUrl = 'https://raw.githubusercontent.com/madmikeyb/Destiny2-Soundboard/master';
 
         function get(url) {
@@ -261,7 +262,7 @@
             const elmSaladin = document.getElementById("saladin");
             
             const dict = !dev
-            ? JSON.parse(atob(JSON.parse(await get(githubApiUrl + "/dict.json"))))
+            ? JSON.parse(atob(JSON.parse(await get(destinyDictionaryBlob)).content))
             : JSON.parse(await get("http://localhost:3000/dict.json"));
 
             for (let i = 0; i < lines_keys.length; i++) {
@@ -304,7 +305,7 @@
             const elmCalus = document.getElementById("calus");
 
             const dict = !dev
-            ? JSON.parse(atob(JSON.parse(await get(githubApiUrl + "/dict.json"))))
+            ? JSON.parse(atob(JSON.parse(await get(destinyDictionaryBlob)).content))
             : JSON.parse(await get("http://localhost:3000/dict.json"));
 
             for (let i = 0; i < lines_keys.length; i++) {
