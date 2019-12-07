@@ -5,25 +5,73 @@
          <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://unpkg.com/popper.js@1"></script>
+        <script src="https://unpkg.com/tippy.js@5"></script>
+
         <script>
             $(document).ready(function(){
                 $('.tabs').tabs();
                 $('.modal').modal();
                 
-                function inputChanged() {
+                function inputChanged(inputId) {
                     return new Promise((resolve, reject) => {
-                        let input = $(".js-search").val();
+                        let input = $(inputId).val();
                         setTimeout(() => {
-                            if ($(".js-search").val() !== input) reject();
+                            if ($(inputId).val() !== input) reject();
                             else resolve();
                         }, 250);
                     })
                 }
 
-                $(".js-search").on("input", async () => {
-                    let input = $(".js-search").val();
+                $("#shaxx_search").on("input", async () => {
+                    let inputId = "#shaxx_search";
+                    let input = $(inputId).val();
                     try {
-                        await inputChanged();
+                        await inputChanged(inputId);
+                        if (input === "") {
+                            console.log("ok")
+                            for (let i = 0; i < $(".sound-btn").length; i++) {
+                                let btn = $(".sound-btn")[i];
+                                btn.style.display = "";
+                            }
+                            return;
+                        }
+                        for (let i = 0; i < $(".sound-btn").length; i++) {
+                            let btn = $(".sound-btn")[i];
+                            if (!btn.innerText.toLowerCase().includes(input.toLowerCase())) btn.style.display = "none";
+                        }
+                    } catch (e) {
+                        return;
+                    }
+                })
+
+                $("#saladin_search").on("input", async () => {
+                    let inputId = "#saladin_search";
+                    let input = $(inputId).val();
+                    try {
+                        await inputChanged(inputId);
+                        if (input === "") {
+                            console.log("ok")
+                            for (let i = 0; i < $(".sound-btn").length; i++) {
+                                let btn = $(".sound-btn")[i];
+                                btn.style.display = "";
+                            }
+                            return;
+                        }
+                        for (let i = 0; i < $(".sound-btn").length; i++) {
+                            let btn = $(".sound-btn")[i];
+                            if (!btn.innerText.toLowerCase().includes(input.toLowerCase())) btn.style.display = "none";
+                        }
+                    } catch (e) {
+                        return;
+                    }
+                })
+
+                $("#calus_search").on("input", async () => {
+                    let inputId = "#calus_search";
+                    let input = $(inputId).val();
+                    try {
+                        await inputChanged(inputId);
                         if (input === "") {
                             console.log("ok")
                             for (let i = 0; i < $(".sound-btn").length; i++) {
@@ -189,6 +237,8 @@
                 for (let x = 0; x < keys.length; x++) {
                     let elm = document.createElement("a");
                     elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
+                    elm.title = vals[x];
+                    elm.setAttribute('data-tippy-content', vals[x]);
                     let t = document.createTextNode(vals[x]);
                     elm.appendChild(t);
                     
@@ -199,7 +249,7 @@
                     elmShaxx.appendChild(elm);
                 }
             }
-
+            tippy('.sound-btn');
             elmShaxx.removeChild(document.getElementById("shaxx-loading"));
         }
 
@@ -229,6 +279,9 @@
 
                     let elm = document.createElement("a");
                     elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
+                    elm.title = dict[bungieHex];
+                    elm.setAttribute('data-hex', bungieHex);
+                    elm.setAttribute('data-tippy-content', dict[bungieHex]);
                     let t = document.createTextNode(dict[bungieHex]);
                     elm.appendChild(t);
                     
@@ -239,7 +292,7 @@
                     elmSaladin.appendChild(elm);
                 }
             }
-
+            tippy('.sound-btn');
             elmSaladin.removeChild(document.getElementById("saladin-loading"));
         }
         
@@ -271,9 +324,10 @@
                     elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
                     elm.title = dict[bungieHex];
                     elm.setAttribute('data-hex', bungieHex);
+                    elm.setAttribute('data-tippy-content', dict[bungieHex]);
                     let t = document.createTextNode(dict[bungieHex]);
                     elm.appendChild(t);
-                    
+
                     elm.onclick = function() {
                         const audio = new Audio(!dev ? `${githubRawUrl}/ogg/calus/${bungieHex}.mp3` : `http://localhost:3000/ogg/calus/${bungieHex}.mp3`);
                         audio.play(); 
@@ -281,6 +335,8 @@
                     elmCalus.appendChild(elm);
                 }
             }
+
+            tippy('.sound-btn');
 
             elmCalus.removeChild(document.getElementById("calus-loading"));
         }
