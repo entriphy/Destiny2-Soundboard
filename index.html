@@ -209,6 +209,10 @@
             : JSON.parse(await get("http://localhost:3000/saladin.json")).lines;
             const lines_keys = Object.keys(lines);
             const elmSaladin = document.getElementById("saladin");
+            
+            const dict = !dev
+            ? JSON.parse(atob(JSON.parse(await get(githubApiUrl + "/dict.json"))))
+            : JSON.parse(await get("http://localhost:3000/dict.json"));
 
             for (let i = 0; i < lines_keys.length; i++) {
                 const title = lines_keys[i]; // Title of h3 element
@@ -221,13 +225,15 @@
                 elmSaladin.appendChild(h3);
 
                 for (let x = 0; x < keys.length; x++) {
+                    const bungieHex = keys[x];
+
                     let elm = document.createElement("a");
                     elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
-                    let t = document.createTextNode(vals[x]);
+                    let t = document.createTextNode(dict[bungieHex]);
                     elm.appendChild(t);
                     
                     elm.onclick = function() {
-                        const audio = new Audio(!dev ? `${githubRawUrl}/ogg/saladin/${keys[x]}.mp3` : `http://localhost:3000/ogg/saladin/${keys[x]}.mp3`);
+                        const audio = new Audio(!dev ? `${githubRawUrl}/ogg/saladin/${bungieHex}.mp3` : `http://localhost:3000/ogg/saladin/${bungieHex}.mp3`);
                         audio.play(); 
                     }
                     elmSaladin.appendChild(elm);
@@ -244,6 +250,10 @@
             const lines_keys = Object.keys(lines);
             const elmCalus = document.getElementById("calus");
 
+            const dict = !dev
+            ? JSON.parse(atob(JSON.parse(await get(githubApiUrl + "/dict.json"))))
+            : JSON.parse(await get("http://localhost:3000/dict.json"));
+
             for (let i = 0; i < lines_keys.length; i++) {
                 const title = lines_keys[i]; // Title of h3 element
                 const keys = Object.keys(lines[title]);
@@ -255,13 +265,17 @@
                 elmCalus.appendChild(h3);
 
                 for (let x = 0; x < keys.length; x++) {
+                    const bungieHex = keys[x];
+
                     let elm = document.createElement("a");
                     elm.classList.add("waves-effect", "waves-light", "btn", "sound-btn", "red", "darken-3");
-                    let t = document.createTextNode(vals[x]);
+                    elm.title = dict[bungieHex];
+                    elm.setAttribute('data-hex', bungieHex);
+                    let t = document.createTextNode(dict[bungieHex]);
                     elm.appendChild(t);
                     
                     elm.onclick = function() {
-                        const audio = new Audio(!dev ? `${githubRawUrl}/ogg/calus/${keys[x]}.mp3` : `http://localhost:3000/ogg/calus/${keys[x]}.mp3`);
+                        const audio = new Audio(!dev ? `${githubRawUrl}/ogg/calus/${bungieHex}.mp3` : `http://localhost:3000/ogg/calus/${bungieHex}.mp3`);
                         audio.play(); 
                     }
                     elmCalus.appendChild(elm);
